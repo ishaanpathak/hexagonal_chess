@@ -20,6 +20,47 @@ struct ChessPiece {
     color: PieceColor,
 }
 
+enum MoveDirection {
+    // Regular Move Directions
+    Up,
+    Down,
+    LeftUp,
+    LeftDown,
+    RightUp,
+    RightDown,
+
+    // Diagonal Move Directions
+    DiagonalLeft,
+    DiagonalRight,
+    DiagonalLeftUp,
+    DiagonalLeftDown,
+    DiagonalRightUp,
+    DiagonalRightDown,
+}
+
+fn get_move_coordinate(direction: MoveDirection, coordinates: (i32, i32)) -> (i32, i32) {
+    let (x, y) = coordinates;
+    match direction {
+        MoveDirection::Up => (x-1, y),
+        MoveDirection::Down => (x+1, y),
+
+        MoveDirection::LeftUp => (x-1, y+1),
+        MoveDirection::LeftDown => (x, y+1),
+        
+        MoveDirection::RightUp => (x, y-1),
+        MoveDirection::RightDown => (x+1, y-1),
+        
+        MoveDirection::DiagonalLeft => (x-1, y+2),
+        MoveDirection::DiagonalRight => (x+1, y-2),
+        
+        MoveDirection::DiagonalLeftUp => (x-2, y+1),
+        MoveDirection::DiagonalLeftDown => (x+1, y+1),
+        
+        MoveDirection::DiagonalRightUp => (x-1, y-1),
+        MoveDirection::DiagonalRightDown => (x+2, y-1)
+    }
+}
+
 
 fn reset_board(board: &mut Vec<Vec<Option<ChessPiece>>>) {
     // Black Pawns
