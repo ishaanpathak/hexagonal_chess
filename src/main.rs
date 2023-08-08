@@ -1,3 +1,5 @@
+use std::fs;
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 enum PieceType {
     Pawn,
@@ -38,8 +40,59 @@ enum MoveDirection {
     DiagonalRightDown,
 }
 
-fn get_move_coordinate(direction: MoveDirection, coordinates: (i32, i32)) -> (i32, i32) {
-    let (x, y) = coordinates;
+fn decode_coordinates_bitwise(encoded_value: usize) -> (usize, usize) {
+    let x = (encoded_value & 0xF0) >> 4;
+    let y = encoded_value & 0x0F;
+    (x, y)
+}
+
+fn decode_piece(piece_code: &str) -> Option<ChessPiece> {
+    let color_code = piece_code.chars().nth(0).unwrap();
+    let type_code = piece_code.chars().nth(1).unwrap();
+    
+    Some(ChessPiece {
+        piece_type: {
+            match type_code {
+                'B' => { PieceType::Bishop },
+                'K' => { PieceType::King },
+                'N' => { PieceType::Knight },
+                'Q' => { PieceType::Queen },
+                'R' => { PieceType::Rook },
+                _ => { PieceType::Pawn }
+            }
+        },
+        color: {
+            match color_code {
+                'B' => { PieceColor::Black },
+                'W' => { PieceColor::White },
+                _ => { PieceColor::White },
+            }
+        },
+    })
+}
+
+fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
+
+    let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
+    
+    let input_string = fs::read_to_string(file_path)
+        .expect("Failed to read the file");
+    
+    let cleaned_string = input_string.replace("\n", "").trim().to_string();
+
+    let values: Vec<&str> = cleaned_string.split(";").collect();
+
+    for value in values {        
+        let parts: Vec<&str> = value.split(":").collect();
+        let encoded_value: usize = parts[0].parse()
+            .expect("Failed to parse the encoded value.");
+        let (i, j) = decode_coordinates_bitwise(encoded_value);
+        let piece = decode_piece(parts[1]);
+        board[i][j] = piece;
+    }
+
+    board
+}
     match direction {
         MoveDirection::Up => (x-1, y),
         MoveDirection::Down => (x+1, y),
@@ -126,9 +179,10 @@ fn reset_board(board: &mut [[Option<ChessPiece>; 11]; 11]) {
 
 fn main() {
 
-    let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
+    // let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
+    let mut board = get_board_from_file("C:/Users/ishaan/Documents/HexaChess/Board Loader/src/pawn_test.txt");
 
-    reset_board(&mut board);
+    // reset_board(&mut board);
 
     for (row_index, row) in board.iter().enumerate() {
 
