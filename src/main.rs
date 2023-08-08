@@ -117,6 +117,47 @@ fn get_move_coordinate(direction: MoveDirection, coordinates: &(usize, usize)) -
     }
 }
 
+fn get_white_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+    let mut legal_moves: Vec<(usize, usize)> = Vec::new();
+    
+    // Check LeftUp
+    let (i, j) = get_move_coordinate(MoveDirection::LeftUp, current_coordinates);
+    let left_up_piece = board[i][j];
+    if let Some(piece) = left_up_piece {
+        if piece.color == PieceColor::Black {
+            legal_moves.push((i, j));
+        }
+    }
+
+    // Check RightUp
+    let (i, j) = get_move_coordinate(MoveDirection::RightUp, current_coordinates);
+    let right_up_piece = board[i][j];
+    if let Some(piece) = right_up_piece {
+        if piece.color == PieceColor::Black {
+            legal_moves.push((i, j));
+        }
+    }
+
+    // Check Up
+    let (i, j) = get_move_coordinate(MoveDirection::Up, current_coordinates);
+    if board[i][j] == None {
+        legal_moves.push((i, j));
+    }
+
+    let starting_position_list: [(usize, usize); 9] = [
+        (6,9), (6,8), (6,7), (6,6), (6,5), (7,4), (8,3), (9,2), (10,1)
+    ];
+
+    if starting_position_list.contains(current_coordinates) {
+        let (mut i, mut j) = get_move_coordinate(MoveDirection::Up, current_coordinates);
+        (i, j) = get_move_coordinate(MoveDirection::Up, &(i, j));
+        if board[i][j] == None {
+            legal_moves.push((i, j));
+        }
+    }
+
+    legal_moves
+}
 
 fn reset_board(board: &mut [[Option<ChessPiece>; 11]; 11]) {
     // Black Pawns
