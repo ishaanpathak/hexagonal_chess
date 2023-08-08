@@ -221,6 +221,58 @@ fn reset_board(board: &mut [[Option<ChessPiece>; 11]; 11]) {
     board[10][5] = Some(ChessPiece {piece_type: PieceType::Bishop, color: PieceColor::White});
 }
 
+
+fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessPiece>, coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+    let mut legal_moves: Vec<(usize, usize)> = Vec::new();
+    if let Some(piece) = piece { match piece.color {
+        PieceColor::White => {
+            match piece.piece_type {
+                PieceType::Pawn => {
+                    legal_moves = get_white_pawn_moves(&board, coordinates)
+                }
+                PieceType::Knight => {
+                    // Your code for a white knight
+                }
+                PieceType::Bishop => {
+                    // Your code for a white bishop
+                }
+                PieceType::Rook => {
+                    // Your code for a white rook
+                }
+                PieceType::Queen => {
+                    // Your code for a white queen
+                }
+                PieceType::King => {
+                    // Your code for a white king
+                }
+            }
+        }
+        PieceColor::Black => {
+            match piece.piece_type {
+                PieceType::Pawn => {
+                    // Your code for a black pawn
+                }
+                PieceType::Knight => {
+                    // Your code for a black knight
+                }
+                PieceType::Bishop => {
+                    // Your code for a black bishop
+                }
+                PieceType::Rook => {
+                    // Your code for a black rook
+                }
+                PieceType::Queen => {
+                    // Your code for a black queen
+                }
+                PieceType::King => {
+                    // Your code for a black king
+                }
+            }
+        }
+    } }
+    legal_moves
+}
+
 fn main() {
 
     // let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
