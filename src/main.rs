@@ -93,6 +93,9 @@ fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
 
     board
 }
+
+fn get_move_coordinate(direction: MoveDirection, coordinates: &(usize, usize)) -> (usize, usize) {
+    let (x, y) = *coordinates;
     match direction {
         MoveDirection::Up => (x-1, y),
         MoveDirection::Down => (x+1, y),
