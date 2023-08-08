@@ -318,4 +318,6 @@ fn main() {
         }
         println!();
     }
+
+    println!("{:#?}", get_legal_moves(&board, &board[6][6], &(6,6)));
 }
