@@ -178,6 +178,44 @@ fn get_white_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordina
     legal_moves
 }
 
+fn get_knight_moves(current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+    let mut legal_moves: Vec<(usize, usize)> = Vec::new();
+    let (x, y) = current_coordinates;
+    let conditions = [
+        { x >= &1 }, { x >= &2 }, { x >= &3 },
+        { y >= &1 }, { y >= &2 }, { y >= &3 }
+    ];
+    if conditions[2] {
+        legal_moves.push((x-3, y+1));
+        legal_moves.push((x-3, y+2));
+    }
+    if conditions[1] && conditions[3] {
+        legal_moves.push((x-2, y-1));
+    }
+    if conditions[0] && conditions[4] {
+        legal_moves.push((x-1, y-2));
+    }
+    if conditions[5] {
+        legal_moves.push((x+1, y-3));
+        legal_moves.push((x+2, y-3));
+    }
+    if conditions[4] {
+        legal_moves.push((x+3, y-2));
+    }
+    if conditions[3] {
+        legal_moves.push((x+3, y-1));
+    }
+    legal_moves.push((x+2, y+1));
+    legal_moves.push((x+1, y+2));
+    if conditions[0] {
+        legal_moves.push((x-1, y+3));
+    }
+    if conditions[1] {
+        legal_moves.push((x-2, y+3));
+    }
+    
+    legal_moves
+}
 fn reset_board(board: &mut [[Option<ChessPiece>; 11]; 11]) {
     // Black Pawns
     board[0][9] = Some(ChessPiece{piece_type: PieceType::Pawn, color: PieceColor::Black});
