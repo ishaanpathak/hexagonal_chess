@@ -285,10 +285,10 @@ fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessP
         PieceColor::White => {
             match piece.piece_type {
                 PieceType::Pawn => {
-                    legal_moves = get_white_pawn_moves(&board, coordinates)
+                    legal_moves = get_white_pawn_moves(&board, coordinates);
                 }
                 PieceType::Knight => {
-                    // Your code for a white knight
+                    legal_moves = get_knight_moves(coordinates);
                 }
                 PieceType::Bishop => {
                     // Your code for a white bishop
