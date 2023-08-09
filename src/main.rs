@@ -96,24 +96,43 @@ fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
 
 fn get_move_coordinate(direction: MoveDirection, coordinates: &(usize, usize)) -> (usize, usize) {
     let (x, y) = *coordinates;
+    let fallback: (usize, usize) = (11, 11); // Fall back for negative values
     match direction {
-        MoveDirection::Up => (x-1, y),
+        MoveDirection::Up => {
+            if x >= 1 { (x-1, y) } else { fallback }
+        },
         MoveDirection::Down => (x+1, y),
 
-        MoveDirection::LeftUp => (x-1, y+1),
+        MoveDirection::LeftUp => {
+            if x >= 1 { (x-1, y+1) } else { fallback }
+        },
         MoveDirection::LeftDown => (x, y+1),
         
-        MoveDirection::RightUp => (x, y-1),
-        MoveDirection::RightDown => (x+1, y-1),
+        MoveDirection::RightUp => {
+            if y >= 1 { (x, y-1) } else { fallback }
+        },
+        MoveDirection::RightDown => {
+            if y >= 1 { (x+1, y-1) } else { fallback }
+        },
         
-        MoveDirection::DiagonalLeft => (x-1, y+2),
-        MoveDirection::DiagonalRight => (x+1, y-2),
+        MoveDirection::DiagonalLeft => {
+            if x >= 1 { (x-1, y+2) } else { fallback }
+        },
+        MoveDirection::DiagonalRight => {
+            if y >= 2 { (x+1, y-2) } else { fallback }
+        },
         
-        MoveDirection::DiagonalLeftUp => (x-2, y+1),
+        MoveDirection::DiagonalLeftUp => {
+            if x >= 2 { (x-2, y+1) } else { fallback }
+        },
         MoveDirection::DiagonalLeftDown => (x+1, y+1),
         
-        MoveDirection::DiagonalRightUp => (x-1, y-1),
-        MoveDirection::DiagonalRightDown => (x+2, y-1)
+        MoveDirection::DiagonalRightUp => {
+            if x >= 1 && y >= 1 { (x-1, y-1) } else { fallback }
+        },
+        MoveDirection::DiagonalRightDown => {
+            if y >= 1 { (x+2, y-1) } else { fallback }
+        }
     }
 }
 
