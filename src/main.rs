@@ -75,23 +75,31 @@ fn decode_piece(piece_code: &str) -> Option<ChessPiece> {
 }
 
 fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
-
-    let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
     
+    let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
+
     let input_string = fs::read_to_string(file_path)
         .expect("Failed to read the file");
-    
+
     let cleaned_string = input_string.replace("\n", "").trim().to_string();
 
-    let values: Vec<&str> = cleaned_string.split(";").collect();
+    let cleaned_string_with_semicolon = if !cleaned_string.ends_with(';') {
+        format!("{};", cleaned_string)
+    } else {
+        cleaned_string
+    };
 
-    for value in values {        
+    let values: Vec<&str> = cleaned_string_with_semicolon.split(";").collect();
+
+    for value in values {
         let parts: Vec<&str> = value.split(":").collect();
-        let encoded_value: usize = parts[0].parse()
-            .expect("Failed to parse the encoded value.");
-        let (i, j) = decode_coordinates_bitwise(encoded_value);
-        let piece = decode_piece(parts[1]);
-        board[i][j] = piece;
+        if parts.len() == 2 && !parts[0].is_empty() && !parts[1].is_empty() {
+            let encoded_value: usize = parts[0].parse()
+                .expect("Failed to parse the encoded value.");
+            let (i, j) = decode_coordinates_bitwise(encoded_value);
+            let piece = decode_piece(parts[1]);
+            board[i][j] = piece;
+        }
     }
 
     board
