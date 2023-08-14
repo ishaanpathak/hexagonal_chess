@@ -442,6 +442,7 @@ fn main() {
                                     PieceType::Bishop => print!("♝ "),
                                     PieceType::Knight => print!("♞ "),
                                     PieceType::Pawn => print!("♟ "),
+                                    PieceType::None => print!("_ "),
                                 }
                             },
                             PieceColor::White => {
@@ -452,7 +453,11 @@ fn main() {
                                     PieceType::Bishop => print!("♗ "),
                                     PieceType::Knight => print!("♘ "),
                                     PieceType::Pawn => print!("♙ "),
+                                    PieceType::None => print!("_ "),
                                 }
+                            },
+                            PieceColor::None => {
+                                print!("_ ");
                             }
                         }
                     }
