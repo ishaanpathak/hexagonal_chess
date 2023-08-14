@@ -197,7 +197,7 @@ fn get_white_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordina
     legal_moves
 }
 
-fn get_knight_moves(current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+fn get_knight_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
     let (x, y) = current_coordinates;
     let conditions = [
@@ -232,6 +232,27 @@ fn get_knight_moves(current_coordinates: &(usize, usize)) -> Vec<(usize, usize)>
     if conditions[1] {
         legal_moves.push((x-2, y+3));
     }
+
+    // Only keeping coordinates that are inside the board bounds
+    legal_moves.retain(is_coordinate_in_bounds);
+
+    // Function to check if any coordinate has the same colored piece
+    fn is_not_overlapping(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize), next_coordinates: &(usize, usize)) -> bool {
+        if let Some(next_piece) = board[next_coordinates.0][next_coordinates.1] {
+            if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
+                if next_piece.color != PieceColor::None && next_piece.color == current_piece.color {
+                    return false;
+                }
+            }
+        }
+        true
+    }
+
+    let is_valid_closure = |item: &(usize, usize)| -> bool {
+        is_not_overlapping(board, current_coordinates, item)
+    };
+
+    legal_moves.retain(is_valid_closure);
     
     legal_moves
 }
