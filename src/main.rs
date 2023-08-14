@@ -105,6 +105,14 @@ fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
     board
 }
 
+fn is_coordinate_in_bounds(coordinates: &(usize, usize)) -> bool {
+    let (x, y) = *coordinates;
+    if x + y < 5 || x + y > 15 {
+        return false;
+    }
+    true
+}
+
 fn get_move_coordinate(direction: MoveDirection, coordinates: &(usize, usize)) -> (usize, usize) {
     let (x, y) = *coordinates;
     let fallback: (usize, usize) = (11, 11); // Fall back for negative values
