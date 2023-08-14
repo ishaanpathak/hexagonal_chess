@@ -256,6 +256,46 @@ fn get_knight_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates:
     
     legal_moves
 }
+
+fn get_bishop_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+    let mut legal_moves: Vec<(usize, usize)> = Vec::new();
+    let mut stop: bool = false;
+    let mut coordinates = *current_coordinates;
+    let check_directions = [
+        MoveDirection::DiagonalLeftUp, MoveDirection::DiagonalLeft, MoveDirection::DiagonalLeftDown,
+        MoveDirection::DiagonalRightUp, MoveDirection::DiagonalRight, MoveDirection::DiagonalRightDown,
+    ];
+    for direction in check_directions.iter() {
+        while !stop {
+            let next_coordinate = get_move_coordinate(*direction, &coordinates);
+            if is_coordinate_in_bounds(&next_coordinate) {
+                if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
+                    if let Some(current_piece) = board[coordinates.0][coordinates.1] {
+                        if next_piece.color != PieceColor::None { 
+                            if next_piece.color != current_piece.color {
+                                legal_moves.push(next_coordinate);
+                                stop = true;
+                            } else {
+                                stop = true;
+                            }
+                        } else {
+                            legal_moves.push(next_coordinate);
+                            coordinates = next_coordinate;
+                        }
+                    }
+                } else {
+                    stop = true;
+                }
+            } else {
+                stop = true;
+            }
+        }
+        coordinates = *current_coordinates;
+    }
+    
+    legal_moves
+}
+
 fn reset_board(board: &mut [[Option<ChessPiece>; 11]; 11]) {
     // Black Pawns
     board[0][9] = Some(ChessPiece{piece_type: PieceType::Pawn, color: PieceColor::Black});
