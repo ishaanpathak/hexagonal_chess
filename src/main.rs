@@ -24,6 +24,7 @@ struct ChessPiece {
     color: PieceColor,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq)]
 enum MoveDirection {
     // Regular Move Directions
     Up,
