@@ -366,45 +366,54 @@ fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessP
             match piece.piece_type {
                 PieceType::Pawn => {
                     legal_moves = get_white_pawn_moves(&board, coordinates);
-                }
+                },
                 PieceType::Knight => {
-                    legal_moves = get_knight_moves(coordinates);
-                }
+                    legal_moves = get_knight_moves(&board, coordinates);
+                },
                 PieceType::Bishop => {
-                    // Your code for a white bishop
-                }
+                    legal_moves = get_bishop_moves(&board, coordinates)
+                },
                 PieceType::Rook => {
                     // Your code for a white rook
-                }
+                },
                 PieceType::Queen => {
                     // Your code for a white queen
-                }
+                },
                 PieceType::King => {
                     // Your code for a white king
+                },
+                PieceType::None => {
+                    legal_moves = vec![*coordinates];
                 }
             }
-        }
+        },
         PieceColor::Black => {
             match piece.piece_type {
                 PieceType::Pawn => {
                     // Your code for a black pawn
-                }
+                },
                 PieceType::Knight => {
                     // Your code for a black knight
-                }
+                },
                 PieceType::Bishop => {
                     // Your code for a black bishop
-                }
+                },
                 PieceType::Rook => {
                     // Your code for a black rook
-                }
+                },
                 PieceType::Queen => {
                     // Your code for a black queen
-                }
+                },
                 PieceType::King => {
                     // Your code for a black king
+                },
+                PieceType::None => {
+                    legal_moves = vec![*coordinates];
                 }
             }
+        },
+        PieceColor::None => {
+            legal_moves = vec![*coordinates];
         }
     } }
     legal_moves
