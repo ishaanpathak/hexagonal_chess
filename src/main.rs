@@ -8,12 +8,14 @@ enum PieceType {
     Rook,
     Queen,
     King,
+    None,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 enum PieceColor {
     White,
     Black,
+    None,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
