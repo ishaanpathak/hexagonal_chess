@@ -458,16 +458,16 @@ fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessP
                     legal_moves = get_knight_moves(&board, coordinates);
                 },
                 PieceType::Bishop => {
-                    legal_moves = get_bishop_moves(&board, coordinates)
+                    legal_moves = get_bishop_moves(&board, coordinates);
                 },
                 PieceType::Rook => {
-                    // Your code for a white rook
+                    legal_moves = get_rook_moves(&board, coordinates);
                 },
                 PieceType::Queen => {
-                    // Your code for a white queen
+                    legal_moves = get_queen_moves(&board, coordinates);
                 },
                 PieceType::King => {
-                    // Your code for a white king
+                    legal_moves = get_king_moves(&board, coordinates);
                 },
                 PieceType::None => {
                     legal_moves = vec![*coordinates];
