@@ -509,7 +509,7 @@ fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessP
 fn main() {
 
     // let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
-    let mut board = get_board_from_file("C:/Users/ishaan/Documents/HexaChess/Board Loader/src/pawn_test.txt");
+    let mut board = get_board_from_file("/run/media/ishaan/Windows/Users/ishaan/Documents/HexaChess/Python Board Generator/output/king_test.txt");
 
     // reset_board(&mut board);
 
@@ -557,5 +557,5 @@ fn main() {
         println!();
     }
 
-    println!("{:#?}", get_legal_moves(&board, &board[6][6], &(6,6)));
+    println!("{:?}", get_legal_moves(&board, &board[5][5], &(5,5)));
 }
