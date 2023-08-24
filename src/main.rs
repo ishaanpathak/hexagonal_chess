@@ -348,7 +348,40 @@ fn get_queen_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: 
     legal_moves
 }
 
-fn reset_board(board: &mut [[Option<ChessPiece>; 11]; 11]) {
+fn get_king_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+    let mut legal_moves = Vec::new();
+    let directions = [
+        MoveDirection::Up,
+        MoveDirection::DiagonalRightUp,
+        MoveDirection::RightUp,
+        MoveDirection::DiagonalRight,
+        MoveDirection::RightDown,
+        MoveDirection::DiagonalRightDown,
+        MoveDirection::Down,
+        MoveDirection::DiagonalLeftDown,
+        MoveDirection::LeftDown,
+        MoveDirection::DiagonalLeft,
+        MoveDirection::LeftUp,
+        MoveDirection::DiagonalLeftUp
+    ];
+    for direction in directions {
+        let next_coordinate: (usize, usize) = get_move_coordinate(direction, current_coordinates);
+        if is_coordinate_in_bounds(&next_coordinate) {
+            if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
+                if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
+                    if next_piece.color != PieceColor::None {
+                        if next_piece.color != current_piece.color {
+                            legal_moves.push(next_coordinate);
+                        }
+                    } else {
+                        legal_moves.push(next_coordinate);
+                    }
+                }
+            }
+        }
+    }
+    legal_moves
+}
     // Black Pawns
     board[0][9] = Some(ChessPiece{piece_type: PieceType::Pawn, color: PieceColor::Black});
     board[1][8] = Some(ChessPiece{piece_type: PieceType::Pawn, color: PieceColor::Black});
