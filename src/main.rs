@@ -382,6 +382,8 @@ fn get_king_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &
     }
     legal_moves
 }
+
+fn _reset_board(board: &mut [[Option<ChessPiece>; 11]; 11]) {
     // Black Pawns
     board[0][9] = Some(ChessPiece{piece_type: PieceType::Pawn, color: PieceColor::Black});
     board[1][8] = Some(ChessPiece{piece_type: PieceType::Pawn, color: PieceColor::Black});
