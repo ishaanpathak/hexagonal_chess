@@ -271,7 +271,7 @@ fn get_bishop_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates:
             let next_coordinate = get_move_coordinate(*direction, &coordinates);
             if is_coordinate_in_bounds(&next_coordinate) {
                 if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
-                    if let Some(current_piece) = board[coordinates.0][coordinates.1] {
+                    if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
                         if next_piece.color != PieceColor::None { 
                             if next_piece.color != current_piece.color {
                                 legal_moves.push(next_coordinate);
@@ -285,6 +285,19 @@ fn get_bishop_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates:
                         }
                     }
                 } else {
+                    legal_moves.push(next_coordinate);
+                    coordinates = next_coordinate;
+                }
+            } else {
+                stop = true;
+            }
+        }
+        coordinates = *current_coordinates;
+        stop = false;
+    }
+    
+    legal_moves
+}
                     stop = true;
                 }
             } else {
