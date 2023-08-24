@@ -338,7 +338,13 @@ fn get_rook_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &
     }
     legal_moves
 }
-    
+
+fn get_queen_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+    let mut legal_moves: Vec<(usize, usize)> = Vec::new();
+    let mut regular_moves: Vec<(usize, usize)> = get_rook_moves(board, current_coordinates);
+    let mut diagonal_moves: Vec<(usize, usize)> = get_bishop_moves(board, current_coordinates);
+    legal_moves.extend(regular_moves.drain(..));
+    legal_moves.extend(diagonal_moves.drain(..));
     legal_moves
 }
 
