@@ -76,7 +76,8 @@ fn decode_piece(piece_code: &str) -> Option<ChessPiece> {
 
 fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
     
-    let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
+    // let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
+    let mut board: [[Option<ChessPiece>; 11]; 11] = [[Some(ChessPiece { piece_type: PieceType::None, color: PieceColor::None }); 11]; 11];
 
     let input_string = fs::read_to_string(file_path)
         .expect("Failed to read the file");
