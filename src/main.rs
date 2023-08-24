@@ -108,7 +108,7 @@ fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
 
 fn is_coordinate_in_bounds(coordinates: &(usize, usize)) -> bool {
     let (x, y) = *coordinates;
-    if x + y < 5 || x + y > 15 {
+    if x + y < 5 || x + y > 15 || (x >= 11 || y >= 11) {
         return false;
     }
     true
