@@ -198,6 +198,60 @@ fn get_white_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordina
     legal_moves
 }
 
+fn get_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+    let mut legal_moves: Vec<(usize, usize)> = Vec::new();    
+    let mut forward: MoveDirection = MoveDirection::Up;
+    let mut up_left: MoveDirection = MoveDirection::LeftUp;
+    let mut up_right: MoveDirection = MoveDirection::RightUp;
+    let mut starting_positions: [(usize, usize); 9] = [
+        (6,9), (6,8), (6,7), (6,6), (6,5), (7,4), (8,3), (9,2), (10,1)
+    ];
+    if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
+        if current_piece.color == PieceColor::Black {
+            forward = MoveDirection::Down;
+            up_left = MoveDirection::RightDown;
+            up_right = MoveDirection::LeftDown;
+            starting_positions = [
+                (0,9), (1,8), (2,7), (3,6), (4,5), (4,4), (4,3), (4,2), (4,1)
+            ];
+        }
+        // Checking up_left
+        let mut next_coordinate = get_move_coordinate(up_left, current_coordinates);
+        if let Some(left_up_piece) = board[next_coordinate.0][next_coordinate.1] {
+            if (left_up_piece.color != PieceColor::None) && (left_up_piece.color != current_piece.color) {
+                legal_moves.push(next_coordinate);
+            }
+        }
+        // Check up_right
+        next_coordinate = get_move_coordinate(up_right, current_coordinates);
+        if let Some(right_up_piece) = board[next_coordinate.0][next_coordinate.1] {
+            if (right_up_piece.color != PieceColor::None) && (right_up_piece.color != current_piece.color) {
+                legal_moves.push(next_coordinate);
+            }
+        }
+        // Check forward
+        let forward_count: usize = {
+            if starting_positions.contains(current_coordinates) {
+                2
+            } else {
+                1
+            }
+        };
+        let mut coordinate = *current_coordinates;
+        for _ in 1..=forward_count {
+            next_coordinate = get_move_coordinate(forward, &coordinate);
+            if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
+                if next_piece.color != current_piece.color {
+                    legal_moves.push(next_coordinate);
+                }
+            }
+            coordinate = next_coordinate;
+        }
+    }
+    
+    legal_moves
+}
+
 fn get_knight_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
     let (x, y) = current_coordinates;
