@@ -156,48 +156,6 @@ fn get_move_coordinate(direction: MoveDirection, coordinates: &(usize, usize)) -
     }
 }
 
-fn get_white_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
-    let mut legal_moves: Vec<(usize, usize)> = Vec::new();
-    
-    // Check LeftUp
-    let (i, j) = get_move_coordinate(MoveDirection::LeftUp, current_coordinates);
-    let left_up_piece = board[i][j];
-    if let Some(piece) = left_up_piece {
-        if piece.color == PieceColor::Black {
-            legal_moves.push((i, j));
-        }
-    }
-
-    // Check RightUp
-    let (i, j) = get_move_coordinate(MoveDirection::RightUp, current_coordinates);
-    let right_up_piece = board[i][j];
-    if let Some(piece) = right_up_piece {
-        if piece.color == PieceColor::Black {
-            legal_moves.push((i, j));
-        }
-    }
-
-    // Check Up
-    let (i, j) = get_move_coordinate(MoveDirection::Up, current_coordinates);
-    if board[i][j] == None {
-        legal_moves.push((i, j));
-    }
-
-    let starting_position_list: [(usize, usize); 9] = [
-        (6,9), (6,8), (6,7), (6,6), (6,5), (7,4), (8,3), (9,2), (10,1)
-    ];
-
-    if starting_position_list.contains(current_coordinates) {
-        let (mut i, mut j) = get_move_coordinate(MoveDirection::Up, current_coordinates);
-        (i, j) = get_move_coordinate(MoveDirection::Up, &(i, j));
-        if board[i][j] == None {
-            legal_moves.push((i, j));
-        }
-    }
-
-    legal_moves
-}
-
 fn get_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();    
     let mut forward: MoveDirection = MoveDirection::Up;
@@ -241,7 +199,7 @@ fn get_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &
         for _ in 1..=forward_count {
             next_coordinate = get_move_coordinate(forward, &coordinate);
             if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
-                if next_piece.color != current_piece.color {
+                if next_piece.color == PieceColor::None {
                     legal_moves.push(next_coordinate);
                 }
             }
@@ -506,7 +464,7 @@ fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessP
         PieceColor::White => {
             match piece.piece_type {
                 PieceType::Pawn => {
-                    legal_moves = get_white_pawn_moves(&board, coordinates);
+                    legal_moves = get_pawn_moves(&board, coordinates);
                 },
                 PieceType::Knight => {
                     legal_moves = get_knight_moves(&board, coordinates);
@@ -531,22 +489,22 @@ fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessP
         PieceColor::Black => {
             match piece.piece_type {
                 PieceType::Pawn => {
-                    // Your code for a black pawn
+                    legal_moves = get_pawn_moves(&board, coordinates);
                 },
                 PieceType::Knight => {
-                    // Your code for a black knight
+                    legal_moves = get_knight_moves(&board, coordinates);
                 },
                 PieceType::Bishop => {
-                    // Your code for a black bishop
+                    legal_moves = get_bishop_moves(&board, coordinates);
                 },
                 PieceType::Rook => {
-                    // Your code for a black rook
+                    legal_moves = get_rook_moves(&board, coordinates);
                 },
                 PieceType::Queen => {
-                    // Your code for a black queen
+                    legal_moves = get_queen_moves(&board, coordinates);
                 },
                 PieceType::King => {
-                    // Your code for a black king
+                    legal_moves = get_king_moves(&board, coordinates);
                 },
                 PieceType::None => {
                     legal_moves = vec![*coordinates];
@@ -563,7 +521,7 @@ fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessP
 fn main() {
 
     // let mut board: [[Option<ChessPiece>; 11]; 11] = [[None; 11]; 11];
-    let mut board = get_board_from_file("/run/media/ishaan/Windows/Users/ishaan/Documents/HexaChess/Python Board Generator/output/king_test.txt");
+    let mut board = get_board_from_file("/run/media/ishaan/Windows/Users/ishaan/Documents/HexaChess/Python Board Generator/output/pawn_test_new.txt");
 
     // reset_board(&mut board);
 
@@ -611,5 +569,9 @@ fn main() {
         println!();
     }
 
-    println!("{:?}", get_legal_moves(&board, &board[5][5], &(5,5)));
+    println!("{:?}", get_legal_moves(&board, &board[6][5], &(6,5)));
+    println!("{:?}", get_legal_moves(&board, &board[6][8], &(6,8)));
+    println!("{:?}", get_legal_moves(&board, &board[4][5], &(4,5)));
+    println!("{:?}", get_legal_moves(&board, &board[4][3], &(4,3)));
+    println!("{:?}", get_legal_moves(&board, &board[3][7], &(3,7)));
 }
