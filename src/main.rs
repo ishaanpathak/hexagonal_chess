@@ -458,9 +458,9 @@ fn _reset_board(board: &mut [[Option<ChessPiece>; 11]; 11]) {
 }
 
 
-fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], piece: &Option<ChessPiece>, coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
-    if let Some(piece) = piece { match piece.color {
+    if let Some(piece) = board[coordinates.0][coordinates.1] { match piece.color {
         PieceColor::White => {
             match piece.piece_type {
                 PieceType::Pawn => {
@@ -569,9 +569,9 @@ fn main() {
         println!();
     }
 
-    println!("{:?}", get_legal_moves(&board, &board[6][5], &(6,5)));
-    println!("{:?}", get_legal_moves(&board, &board[6][8], &(6,8)));
-    println!("{:?}", get_legal_moves(&board, &board[4][5], &(4,5)));
-    println!("{:?}", get_legal_moves(&board, &board[4][3], &(4,3)));
-    println!("{:?}", get_legal_moves(&board, &board[3][7], &(3,7)));
+    println!("{:?}", get_legal_moves(&board, &(6,5)));
+    println!("{:?}", get_legal_moves(&board, &(6,8)));
+    println!("{:?}", get_legal_moves(&board, &(4,5)));
+    println!("{:?}", get_legal_moves(&board, &(4,3)));
+    println!("{:?}", get_legal_moves(&board, &(3,7)));
 }
