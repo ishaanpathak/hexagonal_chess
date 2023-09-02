@@ -1,5 +1,9 @@
 use crate::pieces::{ChessPiece, PieceColor, PieceType};
 use crate::board::Board;
+use crate::validation::is_check;
+use std::collections::HashMap;
+
+pub type MoveList = HashMap<(usize, usize), Vec<(usize, usize)>>;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MoveDirection {
@@ -387,4 +391,33 @@ pub fn execute_move(board: &mut Board, move_info: &Move) {
         piece_type: PieceType::None,
         color: PieceColor::None
     });
+}
+
+/// Removes the moves that Keep King in Check or lead King to Check
+pub fn remove_check_moves(board: &Board, move_list: &mut MoveList) {
+    let mut king_color: PieceColor = PieceColor::None;
+    for (from, _) in move_list.iter() {
+        if let Some(piece) = board[from.0][from.1] {
+            if piece.piece_type == PieceType::King {
+                king_color = piece.color;
+            }
+        }
+    }
+    for (from, moves) in move_list.clone().iter() {
+        let mut filtered_moves: Vec<(usize, usize)> = Vec::new();
+        for to in moves.iter() {
+            let mut board_copy = board.clone();
+            let move_info = Move {
+                piece: board_copy[from.0][from.1].unwrap(),
+                from: *from,
+                to: *to
+            };
+            execute_move(&mut board_copy, &move_info);
+            if !is_check(&board_copy, king_color) {
+                filtered_moves.push(*to);
+            }
+        }
+        move_list.insert(*from, filtered_moves);
+    }
+    move_list.retain(|_, moves| moves.len() > 0);
 }
