@@ -1,5 +1,6 @@
 use crate::pieces::PieceColor;
 use crate::pieces::ChessPiece;
+use crate::board::Board;
 
 enum GameResult {
     Ongoing,
@@ -20,7 +21,7 @@ enum GameResult {
 pub struct Game {
     pub id: u32,
     pub move_history: Vec<[(usize, usize); 2]>,
-    pub board: [[Option<ChessPiece>; 11]; 11],
+    pub board: Board,
     pub next_turn: PieceColor,
     pub captured_pieces: [Vec<ChessPiece>; 2]
 }

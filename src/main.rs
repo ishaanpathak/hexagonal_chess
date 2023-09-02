@@ -11,7 +11,7 @@ use crate::pieces::ChessPiece;
 use crate::game::Game;
 
 fn main() {
-    let board: [[Option<ChessPiece>; 11]; 11];
+    let board: Board;
     
     let config = load_config().unwrap();
     

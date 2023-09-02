@@ -1,4 +1,5 @@
 use crate::pieces::{ChessPiece, PieceColor, PieceType};
+use crate::board::Board;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MoveDirection {
@@ -69,7 +70,7 @@ pub fn get_move_coordinate(direction: MoveDirection, coordinates: &(usize, usize
     }
 }
 
-pub fn get_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+pub fn get_pawn_moves(board: &Board, current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();    
     let mut forward: MoveDirection = MoveDirection::Up;
     let mut up_left: MoveDirection = MoveDirection::LeftUp;
@@ -123,7 +124,7 @@ pub fn get_pawn_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinate
     legal_moves
 }
 
-pub fn get_knight_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+pub fn get_knight_moves(board: &Board, current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
     let (x, y) = current_coordinates;
     let conditions = [
@@ -163,7 +164,7 @@ pub fn get_knight_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordina
     legal_moves.retain(is_coordinate_in_bounds);
 
     // Function to check if any coordinate has the same colored piece
-    fn is_not_overlapping(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize), next_coordinates: &(usize, usize)) -> bool {
+    fn is_not_overlapping(board: &Board, current_coordinates: &(usize, usize), next_coordinates: &(usize, usize)) -> bool {
         if let Some(next_piece) = board[next_coordinates.0][next_coordinates.1] {
             if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
                 if next_piece.color != PieceColor::None && next_piece.color == current_piece.color {
@@ -183,7 +184,7 @@ pub fn get_knight_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordina
     legal_moves
 }
 
-pub fn get_bishop_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+pub fn get_bishop_moves(board: &Board, current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
     let mut stop: bool = false;
     let mut coordinates = *current_coordinates;
@@ -224,7 +225,7 @@ pub fn get_bishop_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordina
     legal_moves
 }
 
-pub fn get_rook_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+pub fn get_rook_moves(board: &Board, current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
     let mut stop: bool = false;
     let mut coordinates = *current_coordinates;
@@ -264,7 +265,7 @@ pub fn get_rook_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinate
     legal_moves
 }
 
-pub fn get_queen_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+pub fn get_queen_moves(board: &Board, current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
     let mut regular_moves: Vec<(usize, usize)> = get_rook_moves(board, current_coordinates);
     let mut diagonal_moves: Vec<(usize, usize)> = get_bishop_moves(board, current_coordinates);
@@ -273,7 +274,7 @@ pub fn get_queen_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinat
     legal_moves
 }
 
-pub fn get_king_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+pub fn get_king_moves(board: &Board, current_coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves = Vec::new();
     let directions = [
         MoveDirection::Up,
@@ -308,7 +309,7 @@ pub fn get_king_moves(board: &[[Option<ChessPiece>; 11]; 11], current_coordinate
     legal_moves
 }
 
-pub fn get_legal_moves(board: &[[Option<ChessPiece>; 11]; 11], coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
+pub fn get_legal_moves(board: &Board, coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
     if let Some(piece) = board[coordinates.0][coordinates.1] { match piece.color {
         PieceColor::White => {

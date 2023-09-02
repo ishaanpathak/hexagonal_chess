@@ -1,6 +1,8 @@
 use crate::pieces::*;
 use std::fs;
 
+pub type Board = [[Option<ChessPiece>; 11]; 11];
+
 pub fn decode_coordinates_bitwise(encoded_value: usize) -> (usize, usize) {
     let x = (encoded_value & 0xF0) >> 4;
     let y = encoded_value & 0x0F;
@@ -32,8 +34,8 @@ pub fn decode_piece(piece_code: &str) -> Option<ChessPiece> {
     })
 }
 
-pub fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
-    let mut board: [[Option<ChessPiece>; 11]; 11] = [[Some(ChessPiece {
+pub fn get_board_from_file(file_path: &str) -> Board {
+    let mut board: Board = [[Some(ChessPiece {
         piece_type: PieceType::None,
         color: PieceColor::None,
     }); 11]; 11];
@@ -65,8 +67,8 @@ pub fn get_board_from_file(file_path: &str) -> [[Option<ChessPiece>; 11]; 11] {
     board
 }
 
-pub fn get_default_board() -> [[Option<ChessPiece>; 11]; 11] {
-    let mut board: [[Option<ChessPiece>; 11]; 11] = [[Some(ChessPiece {
+pub fn get_default_board() -> Board {
+    let mut board: Board = [[Some(ChessPiece {
         piece_type: PieceType::None,
         color: PieceColor::None,
     }); 11]; 11];
@@ -241,7 +243,7 @@ pub fn get_default_board() -> [[Option<ChessPiece>; 11]; 11] {
     board
 }
 
-pub fn print_board(board: &[[Option<ChessPiece>; 11]; 11]) {
+pub fn print_board(board: &Board) {
     for (row_index, row) in board.iter().enumerate() {
         // Print cells in the current row
         for (column_index, cell) in row.iter().enumerate() {
