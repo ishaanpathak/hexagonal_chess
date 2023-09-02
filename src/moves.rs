@@ -20,6 +20,13 @@ pub enum MoveDirection {
     DiagonalRightDown,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Move {
+    piece: ChessPiece,
+    from: (usize, usize),
+    to: (usize, usize)
+}
+
 pub fn is_coordinate_in_bounds(coordinates: &(usize, usize)) -> bool {
     let (x, y) = *coordinates;
     if x + y < 5 || x + y > 15 || (x >= 11 || y >= 11) {
@@ -367,4 +374,17 @@ pub fn get_legal_moves(board: &Board, coordinates: &(usize, usize)) -> Vec<(usiz
         }
     } }
     legal_moves
+}
+
+/// Function to actually change the place of a Piece on the Board.
+pub fn execute_move(board: &mut Board, move_info: &Move) {
+    let to: (usize, usize) = move_info.to;
+    let from: (usize, usize) = move_info.from;
+
+    board[to.0][to.1] = board[from.0][from.1];
+    
+    board[from.0][from.1] = Some(ChessPiece {
+        piece_type: PieceType::None,
+        color: PieceColor::None
+    });
 }
