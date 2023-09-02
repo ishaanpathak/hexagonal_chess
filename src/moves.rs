@@ -381,7 +381,7 @@ pub fn execute_move(board: &mut Board, move_info: &Move) {
     let to: (usize, usize) = move_info.to;
     let from: (usize, usize) = move_info.from;
 
-    board[to.0][to.1] = board[from.0][from.1];
+    board[to.0][to.1] = Some(move_info.piece);
     
     board[from.0][from.1] = Some(ChessPiece {
         piece_type: PieceType::None,
