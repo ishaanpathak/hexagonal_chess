@@ -26,9 +26,9 @@ pub enum MoveDirection {
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Move {
-    piece: ChessPiece,
-    from: (usize, usize),
-    to: (usize, usize)
+    pub piece: ChessPiece,
+    pub from: (usize, usize),
+    pub to: (usize, usize)
 }
 
 pub fn is_coordinate_in_bounds(coordinates: &(usize, usize)) -> bool {
