@@ -50,13 +50,13 @@ fn main() {
     remove_check_moves(&board, &mut all_moves);
     
     if in_check {
-        if validation::has_legal_moves(all_moves) {
+        if validation::has_legal_moves(&all_moves) {
             println!("Check!");
         } else {
             println!("Checkmate!");
         }
     } else {
-        if !validation::has_legal_moves(all_moves) {
+        if !validation::has_legal_moves(&all_moves) {
             println!("Stalemate!");
         } else {
             println!("Nothing");

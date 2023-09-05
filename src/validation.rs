@@ -42,7 +42,7 @@ pub fn is_check(board: &Board, color_to_check: PieceColor) -> bool {
 /// 
 /// If player is in check, and this function returns false, Checkmate
 /// If player is not in check, and this function returns false, Stalemate
-pub fn has_legal_moves(move_list: MoveList) -> bool {
+pub fn has_legal_moves(move_list: &MoveList) -> bool {
     if move_list.len() == 0 {
         return false;
     }
