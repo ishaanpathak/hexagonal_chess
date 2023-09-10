@@ -89,7 +89,7 @@ pub fn get_pawn_moves(board: &Board, current_coordinates: &(usize, usize)) -> Ve
     let mut starting_positions: [(usize, usize); 9] = [
         (6,9), (6,8), (6,7), (6,6), (6,5), (7,4), (8,3), (9,2), (10,1)
     ];
-    if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
+    if let Some(current_piece) = board.0[current_coordinates.0][current_coordinates.1] {
         if current_piece.color == PieceColor::Black {
             forward = MoveDirection::Down;
             up_left = MoveDirection::RightDown;
@@ -100,14 +100,14 @@ pub fn get_pawn_moves(board: &Board, current_coordinates: &(usize, usize)) -> Ve
         }
         // Checking up_left
         let mut next_coordinate = get_move_coordinate(up_left, current_coordinates);
-        if let Some(left_up_piece) = board[next_coordinate.0][next_coordinate.1] {
+        if let Some(left_up_piece) = board.0[next_coordinate.0][next_coordinate.1] {
             if (left_up_piece.color != PieceColor::None) && (left_up_piece.color != current_piece.color) {
                 legal_moves.push(next_coordinate);
             }
         }
         // Check up_right
         next_coordinate = get_move_coordinate(up_right, current_coordinates);
-        if let Some(right_up_piece) = board[next_coordinate.0][next_coordinate.1] {
+        if let Some(right_up_piece) = board.0[next_coordinate.0][next_coordinate.1] {
             if (right_up_piece.color != PieceColor::None) && (right_up_piece.color != current_piece.color) {
                 legal_moves.push(next_coordinate);
             }
@@ -123,7 +123,7 @@ pub fn get_pawn_moves(board: &Board, current_coordinates: &(usize, usize)) -> Ve
         let mut coordinate = *current_coordinates;
         for _ in 1..=forward_count {
             next_coordinate = get_move_coordinate(forward, &coordinate);
-            if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
+            if let Some(next_piece) = board.0[next_coordinate.0][next_coordinate.1] {
                 if next_piece.color == PieceColor::None {
                     legal_moves.push(next_coordinate);
                 }
@@ -176,8 +176,8 @@ pub fn get_knight_moves(board: &Board, current_coordinates: &(usize, usize)) -> 
 
     // Function to check if any coordinate has the same colored piece
     fn is_not_overlapping(board: &Board, current_coordinates: &(usize, usize), next_coordinates: &(usize, usize)) -> bool {
-        if let Some(next_piece) = board[next_coordinates.0][next_coordinates.1] {
-            if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
+        if let Some(next_piece) = board.0[next_coordinates.0][next_coordinates.1] {
+            if let Some(current_piece) = board.0[current_coordinates.0][current_coordinates.1] {
                 if next_piece.color != PieceColor::None && next_piece.color == current_piece.color {
                     return false;
                 }
@@ -207,8 +207,8 @@ pub fn get_bishop_moves(board: &Board, current_coordinates: &(usize, usize)) -> 
         while !stop {
             let next_coordinate = get_move_coordinate(*direction, &coordinates);
             if is_coordinate_in_bounds(&next_coordinate) {
-                if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
-                    if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
+                if let Some(next_piece) = board.0[next_coordinate.0][next_coordinate.1] {
+                    if let Some(current_piece) = board.0[current_coordinates.0][current_coordinates.1] {
                         if next_piece.color != PieceColor::None { 
                             if next_piece.color != current_piece.color {
                                 legal_moves.push(next_coordinate);
@@ -248,8 +248,8 @@ pub fn get_rook_moves(board: &Board, current_coordinates: &(usize, usize)) -> Ve
         while !stop {
             let next_coordinate = get_move_coordinate(*direction, &coordinates);
             if is_coordinate_in_bounds(&next_coordinate) {
-                if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
-                    if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
+                if let Some(next_piece) = board.0[next_coordinate.0][next_coordinate.1] {
+                    if let Some(current_piece) = board.0[current_coordinates.0][current_coordinates.1] {
                         if next_piece.color != PieceColor::None { 
                             if next_piece.color != current_piece.color {
                                 legal_moves.push(next_coordinate);
@@ -304,8 +304,8 @@ pub fn get_king_moves(board: &Board, current_coordinates: &(usize, usize)) -> Ve
     for direction in directions {
         let next_coordinate: (usize, usize) = get_move_coordinate(direction, current_coordinates);
         if is_coordinate_in_bounds(&next_coordinate) {
-            if let Some(current_piece) = board[current_coordinates.0][current_coordinates.1] {
-                if let Some(next_piece) = board[next_coordinate.0][next_coordinate.1] {
+            if let Some(current_piece) = board.0[current_coordinates.0][current_coordinates.1] {
+                if let Some(next_piece) = board.0[next_coordinate.0][next_coordinate.1] {
                     if next_piece.color != PieceColor::None {
                         if next_piece.color != current_piece.color {
                             legal_moves.push(next_coordinate);
@@ -322,7 +322,7 @@ pub fn get_king_moves(board: &Board, current_coordinates: &(usize, usize)) -> Ve
 
 pub fn get_legal_moves(board: &Board, coordinates: &(usize, usize)) -> Vec<(usize, usize)> {
     let mut legal_moves: Vec<(usize, usize)> = Vec::new();
-    if let Some(piece) = board[coordinates.0][coordinates.1] { match piece.color {
+    if let Some(piece) = board.0[coordinates.0][coordinates.1] { match piece.color {
         PieceColor::White => {
             match piece.piece_type {
                 PieceType::Pawn => {
@@ -385,9 +385,9 @@ pub fn execute_move(board: &mut Board, move_info: &Move) {
     let to: (usize, usize) = move_info.to;
     let from: (usize, usize) = move_info.from;
 
-    board[to.0][to.1] = Some(move_info.piece);
+    board.0[to.0][to.1] = Some(move_info.piece);
     
-    board[from.0][from.1] = Some(ChessPiece {
+    board.0[from.0][from.1] = Some(ChessPiece {
         piece_type: PieceType::None,
         color: PieceColor::None
     });
@@ -397,7 +397,7 @@ pub fn execute_move(board: &mut Board, move_info: &Move) {
 pub fn remove_check_moves(board: &Board, move_list: &mut MoveList) {
     let mut king_color: PieceColor = PieceColor::None;
     for (from, _) in move_list.iter() {
-        if let Some(piece) = board[from.0][from.1] {
+        if let Some(piece) = board.0[from.0][from.1] {
             if piece.piece_type == PieceType::King {
                 king_color = piece.color;
             }
@@ -408,7 +408,7 @@ pub fn remove_check_moves(board: &Board, move_list: &mut MoveList) {
         for to in moves.iter() {
             let mut board_copy = board.clone();
             let move_info = Move {
-                piece: board_copy[from.0][from.1].unwrap(),
+                piece: board_copy.0[from.0][from.1].unwrap(),
                 from: *from,
                 to: *to
             };

@@ -36,7 +36,7 @@ pub fn get_all_pieces(board: &Board, check_color: PieceColor) -> Vec<Piece> {
     for i in 0usize..11usize {
         for j in 0usize..11usize {
             if (i + j > 4) && (i + j < 16) {
-                if let Some(current_piece) = board[i][j] {
+                if let Some(current_piece) = board.0[i][j] {
                     if current_piece.color == check_color {
                         all_pieces.push(Piece { x: i, y: j, piece: current_piece });
                     }

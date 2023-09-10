@@ -1,7 +1,8 @@
 use crate::pieces::*;
 use std::fs;
 
-pub type Board = [[Option<ChessPiece>; 11]; 11];
+#[derive(Clone, Copy, PartialEq, Debug)]
+pub struct Board(pub [[Option<ChessPiece>; 11]; 11]);
 
 pub fn decode_coordinates_bitwise(encoded_value: usize) -> (usize, usize) {
     let x = (encoded_value & 0xF0) >> 4;
@@ -35,10 +36,10 @@ pub fn decode_piece(piece_code: &str) -> Option<ChessPiece> {
 }
 
 pub fn get_board_from_file(file_path: &str) -> Board {
-    let mut board: Board = [[Some(ChessPiece {
+    let mut board: Board = Board([[Some(ChessPiece {
         piece_type: PieceType::None,
         color: PieceColor::None,
-    }); 11]; 11];
+    }); 11]; 11]);
 
     let input_string = fs::read_to_string(file_path).expect("Failed to read the file");
 
@@ -60,7 +61,7 @@ pub fn get_board_from_file(file_path: &str) -> Board {
                 .expect("Failed to parse the encoded value.");
             let (i, j) = decode_coordinates_bitwise(encoded_value);
             let piece = decode_piece(parts[1]);
-            board[i][j] = piece;
+            board.0[i][j] = piece;
         }
     }
 
@@ -68,174 +69,174 @@ pub fn get_board_from_file(file_path: &str) -> Board {
 }
 
 pub fn get_default_board() -> Board {
-    let mut board: Board = [[Some(ChessPiece {
+    let mut board: Board = Board([[Some(ChessPiece {
         piece_type: PieceType::None,
         color: PieceColor::None,
-    }); 11]; 11];
+    }); 11]; 11]);
     // Black Pawns
-    board[0][9] = Some(ChessPiece {
+    board.0[0][9] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
-    board[1][8] = Some(ChessPiece {
+    board.0[1][8] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
-    board[2][7] = Some(ChessPiece {
+    board.0[2][7] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
-    board[3][6] = Some(ChessPiece {
+    board.0[3][6] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
-    board[4][5] = Some(ChessPiece {
+    board.0[4][5] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
-    board[4][4] = Some(ChessPiece {
+    board.0[4][4] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
-    board[4][3] = Some(ChessPiece {
+    board.0[4][3] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
-    board[4][2] = Some(ChessPiece {
+    board.0[4][2] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
-    board[4][1] = Some(ChessPiece {
+    board.0[4][1] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::Black,
     });
 
     // White Pawns
-    board[6][9] = Some(ChessPiece {
+    board.0[6][9] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
-    board[6][8] = Some(ChessPiece {
+    board.0[6][8] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
-    board[6][7] = Some(ChessPiece {
+    board.0[6][7] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
-    board[6][6] = Some(ChessPiece {
+    board.0[6][6] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
-    board[6][5] = Some(ChessPiece {
+    board.0[6][5] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
-    board[7][4] = Some(ChessPiece {
+    board.0[7][4] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
-    board[8][3] = Some(ChessPiece {
+    board.0[8][3] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
-    board[9][2] = Some(ChessPiece {
+    board.0[9][2] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
-    board[10][1] = Some(ChessPiece {
+    board.0[10][1] = Some(ChessPiece {
         piece_type: PieceType::Pawn,
         color: PieceColor::White,
     });
 
     // Black Knights
-    board[0][7] = Some(ChessPiece {
+    board.0[0][7] = Some(ChessPiece {
         piece_type: PieceType::Knight,
         color: PieceColor::Black,
     });
-    board[2][3] = Some(ChessPiece {
+    board.0[2][3] = Some(ChessPiece {
         piece_type: PieceType::Knight,
         color: PieceColor::Black,
     });
 
     // White Knights
-    board[8][7] = Some(ChessPiece {
+    board.0[8][7] = Some(ChessPiece {
         piece_type: PieceType::Knight,
         color: PieceColor::White,
     });
-    board[10][3] = Some(ChessPiece {
+    board.0[10][3] = Some(ChessPiece {
         piece_type: PieceType::Knight,
         color: PieceColor::White,
     });
 
     // Black Rooks
-    board[0][8] = Some(ChessPiece {
+    board.0[0][8] = Some(ChessPiece {
         piece_type: PieceType::Rook,
         color: PieceColor::Black,
     });
-    board[3][2] = Some(ChessPiece {
+    board.0[3][2] = Some(ChessPiece {
         piece_type: PieceType::Rook,
         color: PieceColor::Black,
     });
 
     // White Rooks
-    board[7][8] = Some(ChessPiece {
+    board.0[7][8] = Some(ChessPiece {
         piece_type: PieceType::Rook,
         color: PieceColor::White,
     });
-    board[10][2] = Some(ChessPiece {
+    board.0[10][2] = Some(ChessPiece {
         piece_type: PieceType::Rook,
         color: PieceColor::White,
     });
 
     // Black Queen
-    board[0][6] = Some(ChessPiece {
+    board.0[0][6] = Some(ChessPiece {
         piece_type: PieceType::Queen,
         color: PieceColor::Black,
     });
 
     // White Queen
-    board[9][6] = Some(ChessPiece {
+    board.0[9][6] = Some(ChessPiece {
         piece_type: PieceType::Queen,
         color: PieceColor::White,
     });
 
     // Black King
-    board[1][4] = Some(ChessPiece {
+    board.0[1][4] = Some(ChessPiece {
         piece_type: PieceType::King,
         color: PieceColor::Black,
     });
 
     // White King
-    board[10][4] = Some(ChessPiece {
+    board.0[10][4] = Some(ChessPiece {
         piece_type: PieceType::King,
         color: PieceColor::White,
     });
 
     // Black Bishops
-    board[0][5] = Some(ChessPiece {
+    board.0[0][5] = Some(ChessPiece {
         piece_type: PieceType::Bishop,
         color: PieceColor::Black,
     });
-    board[1][5] = Some(ChessPiece {
+    board.0[1][5] = Some(ChessPiece {
         piece_type: PieceType::Bishop,
         color: PieceColor::Black,
     });
-    board[2][5] = Some(ChessPiece {
+    board.0[2][5] = Some(ChessPiece {
         piece_type: PieceType::Bishop,
         color: PieceColor::Black,
     });
 
     // Black Bishops
-    board[8][5] = Some(ChessPiece {
+    board.0[8][5] = Some(ChessPiece {
         piece_type: PieceType::Bishop,
         color: PieceColor::White,
     });
-    board[9][5] = Some(ChessPiece {
+    board.0[9][5] = Some(ChessPiece {
         piece_type: PieceType::Bishop,
         color: PieceColor::White,
     });
-    board[10][5] = Some(ChessPiece {
+    board.0[10][5] = Some(ChessPiece {
         piece_type: PieceType::Bishop,
         color: PieceColor::White,
     });
@@ -244,7 +245,7 @@ pub fn get_default_board() -> Board {
 }
 
 pub fn print_board(board: &Board) {
-    for (row_index, row) in board.iter().enumerate() {
+    for (row_index, row) in board.0.iter().enumerate() {
         // Print cells in the current row
         for (column_index, cell) in row.iter().enumerate() {
             if (row_index + column_index > 4) && (row_index + column_index < 16) {
