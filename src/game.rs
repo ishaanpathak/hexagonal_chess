@@ -3,7 +3,7 @@ use crate::pieces::ChessPiece;
 use crate::board::Board;
 use crate::moves::Move;
 
-type History = Vec<Move>;
+pub type History = Vec<Move>;
 
 /// Struct that contains what the Game's current Result is. Can be Ongoing, Checkmate, Stalemate, Draw.
 #[derive(PartialEq, Debug)]
