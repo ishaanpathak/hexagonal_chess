@@ -121,9 +121,12 @@ pub fn get_pawn_moves(board: &Board, current_coordinates: &(usize, usize)) -> Ve
             }
         };
         let mut coordinate = *current_coordinates;
-        for _ in 1..=forward_count {
+        for x in 1..=forward_count {
             next_coordinate = get_move_coordinate(forward, &coordinate);
             if let Some(next_piece) = board.0[next_coordinate.0][next_coordinate.1] {
+                if x == 1 && next_piece.color != PieceColor::None {
+                    break;
+                }
                 if next_piece.color == PieceColor::None {
                     legal_moves.push(next_coordinate);
                 }

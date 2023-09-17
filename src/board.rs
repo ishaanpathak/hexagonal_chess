@@ -4,6 +4,13 @@ use std::fs;
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct Board(pub [[Option<ChessPiece>; 11]; 11]);
 
+pub fn new() -> Board {
+    Board([[Some(ChessPiece {
+        piece_type: PieceType::None,
+        color: PieceColor::None,
+    }); 11]; 11])
+}
+
 pub fn decode_coordinates_bitwise(encoded_value: usize) -> (usize, usize) {
     let x = (encoded_value & 0xF0) >> 4;
     let y = encoded_value & 0x0F;

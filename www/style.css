@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+:root {
+  --color-1: #E3E5CC;
+  --color-2: #7E7F71;
+  --color-3: #2E2E29;
+  --selected: #000000;
+  --highlighted: #53b2ff;
+}
+
+.container {
+  transform: rotateZ(90deg);
+}
+
+body {
+  background: #aaaaaa;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+body .container {
+  padding: 10rem;
+}
+
+body .row {
+  margin-top: calc(((5rem * 0.288) * -1 + 0.25rem));
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.hexagon {
+  position: relative;
+  width: 5rem;
+  height: 2.885rem;
+  background-color: black;
+  margin: 1.44rem 0;
+  margin-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  left: 0;
+  border-left: 2.5rem solid transparent;
+  border-right: 2.5rem solid transparent;
+}
+
+.hexagon:before {
+  bottom: 100%;
+  border-bottom: 1.44rem solid black;
+}
+
+.hexagon:after {
+  top: 100%;
+  width: 0;
+  border-top: 1.44rem solid black;
+}
+
+.hexagon-a {
+  position: relative;
+  width: 5rem;
+  height: 2.885rem;
+  background-color: var(--color-1);
+  margin: 1.44rem 0;
+  margin-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+}
+
+.hexagon-a:before,
+.hexagon-a:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  left: 0;
+  border-left: 2.5rem solid transparent;
+  border-right: 2.5rem solid transparent;
+}
+
+.hexagon-a:before {
+  bottom: 100%;
+  border-bottom: 1.44rem solid var(--color-1);
+}
+
+.hexagon-a:after {
+  top: 100%;
+  width: 0;
+  border-top: 1.44rem solid var(--color-1);
+}
+
+.hexagon-b {
+  position: relative;
+  width: 5rem;
+  height: 2.885rem;
+  background-color: var(--color-2);
+  margin: 1.44rem 0;
+  margin-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+}
+
+.hexagon-b:before,
+.hexagon-b:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  left: 0;
+  border-left: 2.5rem solid transparent;
+  border-right: 2.5rem solid transparent;
+}
+
+.hexagon-b:before {
+  bottom: 100%;
+  border-bottom: 1.44rem solid var(--color-2);
+}
+
+.hexagon-b:after {
+  top: 100%;
+  width: 0;
+  border-top: 1.44rem solid var(--color-2);
+}
+
+.hexagon-c {
+  position: relative;
+  width: 5rem;
+  height: 2.885rem;
+  background-color: var(--color-3);
+  margin: 1.44rem 0;
+  margin-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+}
+
+.hexagon-c:before,
+.hexagon-c:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  left: 0;
+  border-left: 2.5rem solid transparent;
+  border-right: 2.5rem solid transparent;
+}
+
+.hexagon-c:before {
+  bottom: 100%;
+  border-bottom: 1.44rem solid var(--color-3);
+}
+
+.hexagon-c:after {
+  top: 100%;
+  width: 0;
+  border-top: 1.44rem solid var(--color-3);
+}
+
+.rot {
+  transform: rotate(-90deg);
+  color: white;
+}
+
+span {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  font-size: xx-large;
+}
