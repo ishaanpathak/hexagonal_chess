@@ -37,7 +37,7 @@ wasm-pack build
 Note: You need `npm` in order to run the game currently. I am trying a way to make a binary for the game but in the mean time, here's how to run the game:
 
 ```bash
-cd hexagonal_chess
+cd hexagonal_chess/www
 # Uncomment the following line if you get ssl error.
 # export NODE_OPTIONS=--openssl-legacy-provider
 npm run start
