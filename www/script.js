@@ -46,7 +46,7 @@ function createHexagonChessBoard() {
             var hexagonText = document.createElement("span");
             hexagonText.className = "rot";
             hexagonText.innerHTML = j + "," + y;
-            // hexagonText.innerHTML = "";
+            hexagonText.innerHTML = "";
             hexagon.appendChild(hexagonText);
             row.appendChild(hexagon);
         }

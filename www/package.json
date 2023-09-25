@@ -1,7 +1,7 @@
 {
-  "name": "create-wasm-app",
+  "name": "hexagonal_chess",
   "version": "0.1.0",
-  "description": "create an app to consume rust-generated wasm packages",
+  "description": "Chess but instead of Squares, Hexagons",
   "main": "index.js",
   "bin": {
     "create-wasm-app": ".bin/create-wasm-app.js"

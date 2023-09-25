@@ -4,10 +4,7 @@ const game = wasm.Game.new();
 let board = JSON.parse(game.get_board());
 let moves = JSON.parse(game.get_current_player_moves());
 
-document.getElementById("get-board").addEventListener("click", () => {
-    board = JSON.parse(game.get_board());
-    moves = JSON.parse(game.get_current_player_moves());
-    console.log(board);
+const getBoard = () => {
     const entries = Object.entries(board);
     for (const [key, value] of entries) {
         const hexagonElement = document.getElementById(key);
@@ -18,6 +15,10 @@ document.getElementById("get-board").addEventListener("click", () => {
             }
         }
     }
+}
+
+document.getElementById("get-board").addEventListener("click", () => {
+    getBoard();
 });
 
 document.getElementById("get-moves").addEventListener("click", () => {
@@ -91,6 +92,22 @@ for (const hexagon of allHexagons) {
                 game.switch_player();
                 refreshBoard();
                 resetHexagonColors();
+                if (game.is_in_check()) {
+                    console.log("Check!");
+                    const entries = Object.entries(board);
+                    for (const [key, value] of entries) {
+                        if (value === "♔" || value === "♚") {
+                            if (moves[key]) {
+                                const kingHexagon = document.getElementById(key);
+                                if (kingHexagon) {
+                                    kingHexagon.style.setProperty("--color-1", "var(--check)");
+                                    kingHexagon.style.setProperty("--color-2", "var(--check)");
+                                    kingHexagon.style.setProperty("--color-3", "var(--check)");
+                                }
+                            }
+                        }
+                    }
+                }
             }
         } 
     });
@@ -110,4 +127,4 @@ for (const hexagon of allHexagons) {
 //     // resetHexagonColors();
 //     // sessionStorage.setItem("selectedHexagonId", "");
 //     }
-// });
+// });`
