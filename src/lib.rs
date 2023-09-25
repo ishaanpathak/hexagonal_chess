@@ -143,5 +143,9 @@ impl Game {
             PieceColor::None => PieceColor::None
         };
     }
+
+    pub fn is_in_check(&self) -> bool {
+        validation::is_check(&self.board, self.current_turn)
+    }
 }
 
